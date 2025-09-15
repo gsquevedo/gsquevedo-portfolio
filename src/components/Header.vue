@@ -32,7 +32,7 @@
     <v-row align="center" justify="space-between">
       <!-- Foto do lado esquerdo -->
       <v-col cols="12" md="4" class="text-center">
-        <v-avatar size="280" class="hero-avatar">
+        <v-avatar size="300" class="hero-avatar">
           <v-img :src="profileImg" alt="Foto de Gabriele Quevedo" />
         </v-avatar>
       </v-col>
