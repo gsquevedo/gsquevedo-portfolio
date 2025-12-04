@@ -5,30 +5,30 @@
       <v-container>
         <AboutMe />
         <TechStack />
-        <Experience />
+        <!-- <Experience />
         <Projects />
-        <Contact />
+        <Contact /> -->
       </v-container>
     </v-main>
-    <Footer />
+    <!-- <Footer /> -->
   </v-app>
 </template>
 
 <script setup>
+import Header from './components/Header.vue'
 import AboutMe from './components/AboutMe.vue'
 import TechStack from './components/TechStack.vue'
-import Header from './components/Header.vue'
-import Experience from './components/Experience.vue'
-import Footer from './components/Footer.vue'
-import Projects from './components/Projects.vue'
-import Contact from './components/Contact.vue'
+// import Experience from './components/Experience.vue'
+// import Footer from './components/Footer.vue'
+// import Projects from './components/Projects.vue'
+// import Contact from './components/Contact.vue'
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .main-background {
   background-color: #f5f5f5;
   min-height: 100vh;
   padding-top: 60px;
   padding-bottom: 20px;
 }
-</style>
+</style> -->
