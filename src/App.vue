@@ -6,7 +6,6 @@
         
         <AboutMe />
 
-        <!-- 🔥 Seções lado a lado -->
         <v-row class="mt-10" align="stretch">
           <v-col cols="12" md="6">
             <TechStack />
