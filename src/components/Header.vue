@@ -6,7 +6,6 @@
           <span class="logo-text">GABRIELE</span>
         </v-col>
 
-        <!-- Links de Navegação (Desktop) -->
         <v-col cols="auto" class="d-none d-md-flex align-center">
           <div class="links">
             <v-btn
@@ -21,7 +20,6 @@
           </div>
         </v-col>
         
-        <!-- Hamburger Menu (Mobile) -->
         <v-col cols="auto" class="d-md-none">
           <v-btn icon variant="text" class="menu-icon" @click.stop="drawerOpen = !drawerOpen">
              <v-icon>mdi-menu</v-icon>
@@ -31,7 +29,6 @@
     </v-container>
   </v-app-bar>
   
-  <!-- Navigation Drawer (Menu Mobile) -->
   <v-navigation-drawer
     v-model="drawerOpen"
     temporary
@@ -152,7 +149,7 @@ onBeforeUnmount(() => {
 });
 
 const introText = ref(
-  "Olá! Sou Gabriele, desenvolvedora Full Stack e Graduanda em Ciência da Computação. Minha experiência abrange mais de 3 anos criando interfaces reativas (Vue/React) e atualmente aprendizado constante em APIs escaláveis (Python/Django, Node.js). Utilizo minha sólida formação acadêmica para construir soluções digitais inovadoras e confiáveis."
+  "Olá! Sou Gabriele, desenvolvedora Full Stack e Graduanda em Ciência da Computação. Minha experiência abrange mais de 3 anos criando interfaces reativas (Vue/React) e atualmente aprimorando minhas habilidades em APIs escaláveis (Python/Django, Node.js). Utilizo minha sólida formação acadêmica para construir soluções digitais inovadoras e confiáveis."
 );
 
 const links = ref([

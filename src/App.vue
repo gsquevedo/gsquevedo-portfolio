@@ -3,14 +3,24 @@
     <Header />
     <v-main class="main-background">
       <v-container>
+        
         <AboutMe />
-        <TechStack />
-        <!-- <Experience />
+
+        <!-- 🔥 Seções lado a lado -->
+        <v-row class="mt-10" align="stretch">
+          <v-col cols="12" md="6">
+            <TechStack />
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <Experience />
+          </v-col>
+        </v-row>
         <Projects />
-        <Contact /> -->
+        <Contact />
       </v-container>
+      <Footer />
     </v-main>
-    <!-- <Footer /> -->
   </v-app>
 </template>
 
@@ -18,17 +28,11 @@
 import Header from './components/Header.vue'
 import AboutMe from './components/AboutMe.vue'
 import TechStack from './components/TechStack.vue'
-// import Experience from './components/Experience.vue'
-// import Footer from './components/Footer.vue'
-// import Projects from './components/Projects.vue'
-// import Contact from './components/Contact.vue'
+import Experience from './components/Experience.vue'
+import Projects from './components/Projects.vue'
+import Contact from './components/Contact.vue'
+import Footer from './components/Footer.vue'
 </script>
 
-<!-- <style scoped>
-.main-background {
-  background-color: #f5f5f5;
-  min-height: 100vh;
-  padding-top: 60px;
-  padding-bottom: 20px;
-}
-</style> -->
+<style>
+</style>

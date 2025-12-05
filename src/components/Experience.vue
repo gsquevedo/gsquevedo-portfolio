@@ -1,28 +1,46 @@
 <template>
-  <v-container class="experience-section my-12">
-    <h2 class="experience-title mb-8">Experiência Profissional</h2>
-    <v-row dense>
-      <v-col v-for="exp in experiences" :key="exp.company" cols="12" md="6">
-        <v-card class="experience-card" outlined>
-          <v-card-title class="experience-role">
-            {{ exp.role }}
-          </v-card-title>
-          <v-card-subtitle class="experience-company">
-            {{ exp.company }}
-          </v-card-subtitle>
-          <v-card-text class="experience-text">
-            <p class="experience-period">{{ exp.period }}</p>
-            <ul>
-              <li v-for="desc in exp.details" :key="desc">{{ desc }}</li>
-            </ul>
-          </v-card-text>
-        </v-card>
+  <v-container id="experience" class="experience-section fade-wrapper" fluid>
+    <v-row justify="center">
+      <v-col cols="12" md="10" lg="8">
+
+        <div class="experience-card-container fade-up">
+
+          <div class="title-wrapper fade-up">
+            <h2 class="experience-title">Experiência Profissional</h2>
+            <div class="title-underline"></div>
+          </div>
+
+          <v-row class="experience-grid" dense>
+            <v-col
+              v-for="(exp, index) in experiences"
+              :key="exp.company"
+              cols="12"
+              class="exp-item-col fade-up"
+              :style="`--delay: ${index * 0.12}s`"
+            >
+              <div class="exp-card">
+
+                <h3 class="exp-role">{{ exp.role }}</h3>
+                <p class="exp-company">{{ exp.company }}</p>
+                <p class="exp-period">{{ exp.period }}</p>
+
+                <ul class="exp-list">
+                  <li v-for="desc in exp.details" :key="desc">{{ desc }}</li>
+                </ul>
+
+              </div>
+            </v-col>
+          </v-row>
+
+        </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
+import { onMounted } from "vue"
+
 const experiences = [
   {
     company: "iTec/FURG",
@@ -59,77 +77,121 @@ const experiences = [
       "Otimização da interface frontend e visualização de dados geoespaciais"
     ]
   }
-];
-</script>
+]
 
+onMounted(() => {
+  const elements = document.querySelectorAll(".fade-up, .fade-wrapper")
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible")
+        }
+      })
+    },
+    { threshold: 0.15 }
+  )
+
+  elements.forEach(el => observer.observe(el))
+})
+</script>
 
 <style scoped>
 .experience-section {
-  padding: 50px 20px;
-  /* border: 4px solid #e91e63; */
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  padding: 30px 0px;
 }
 
-.experience-section:hover {
-  box-shadow: 0 16px 30px rgba(0,0,0,0.2);
-  transform: scale(1.02); 
-  cursor: pointer;
+.experience-card-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title-wrapper {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .experience-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  text-align: center;
-  color: #e91e63;
-  text-transform: uppercase;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  color: #413a44;
 }
 
-.experience-card {
-  border-radius: 12px;
-  transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
-  border: 2px solid #f0f0f0;
-  margin-bottom: 20px;
-  cursor: pointer;
+.title-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #a7919d;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  opacity: 0;
+  animation: underlineGrow 1s ease forwards;
 }
 
-.experience-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(233, 30, 99, 0.4) !important; /* sombra rosa */
+@keyframes underlineGrow {
+  0% { width: 0; opacity: 0; }
+  100% { width: 60px; opacity: 1; }
 }
 
-.experience-role {
-  font-size: 1.2rem;
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(6px);
+  transition: all 0.9s ease;
+  animation-delay: var(--delay, 0s);
+}
+
+.fade-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(6px);
+  transition: all 0.9s ease;
+}
+
+.fade-up.visible,
+.fade-wrapper.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.exp-role {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #222;
+  color: #413a44;
+  margin-bottom: 4px;
 }
 
-.experience-company {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-.experience-text {
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.experience-period {
+.exp-company {
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #e91e63;
+  color: #6e6475;
 }
 
-ul {
+.exp-period {
+  margin-top: 6px;
+  font-weight: 600;
+  color: #a7919d;
+  margin-bottom: 10px;
+}
+
+.exp-list {
   padding-left: 20px;
   margin: 0;
 }
 
-li {
+.exp-list li {
   margin-bottom: 6px;
+  color: #444;
+  font-size: 0.98rem;
+}
+
+@media (max-width: 959px) {
+  .experience-section {
+    padding: 40px 20px;
+  }
+
+  .experience-title {
+    font-size: 2rem;
+  }
 }
 </style>

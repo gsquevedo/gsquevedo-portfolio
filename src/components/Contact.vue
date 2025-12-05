@@ -1,239 +1,317 @@
 <template>
-  <div class="contact-section">
-    <v-container>
-      <h2 class="section-title mb-8">Entre em Contato</h2>
+  <v-container id="contact" class="contact-section fade-wrapper" fluid>
+    <v-row justify="center">
+      <v-col cols="12" md="10" lg="8">
 
-      <v-row>
-        <!-- Coluna esquerda: frase + ícones -->
-        <v-col cols="12" md="6" class="contact-message">
-          <h3>Vamos conversar!</h3>
-          <p>
-            Tem um projeto em mente, uma ideia ou até mesmo uma dúvida? <br>
-            Será um prazer ouvir você. Envie sua mensagem e responderei o quanto antes!
-          </p>
+        <div class="title-wrapper fade-up">
+          <h2 class="contact-title">Entre em Contato</h2>
+          <div class="title-underline"></div>
+        </div>
 
-          <div class="tech-icons">
-            <v-img
-              v-for="(icon, index) in shuffledIcons"
-              :key="index"
-              :src="icon"
-              class="tech-icon"
-              width="40"
-              height="40"
-              contain
-            />
-          </div>
-        </v-col>
+        <v-row class="contact-grid fade-up">
 
-        <!-- Formulário à direita -->
-        <v-col cols="12" md="6">
-          <v-form ref="contactForm" v-model="valid" @submit.prevent="sendEmail">
-            <v-row dense>
-              <v-col cols="12">
+          <v-col cols="12" md="5" class="left" style="--delay: 150ms;">
+            <h3 class="left-title">Vamos Conversar</h3>
+
+            <p class="left-text">
+              Tem um projeto, uma dúvida ou apenas quer trocar ideias sobre tecnologia?
+              <br/>Será um prazer falar com você!
+            </p>
+
+            <div class="contacts-wrapper" style="--delay: 300ms;">
+              <a
+                v-for="contact in contacts"
+                :key="contact.name"
+                :href="contact.url"
+                class="contact-item"
+                target="_blank"
+                rel="noopener"
+              >
+                <img :src="contact.icon" class="contact-icon" />
+                <div class="contact-labels">
+                  <span class="contact-name">{{ contact.name }}</span>
+                  <span class="contact-value">{{ contact.value }}</span>
+                </div>
+              </a>
+            </div>
+          </v-col>
+
+          <v-col cols="12" md="7" class="form-col" style="--delay: 450ms;">
+            <div class="form-card">
+              <v-form ref="contactForm" v-model="valid" @submit.prevent="sendEmail">
+
                 <v-text-field
                   v-model="form.name"
                   :rules="[rules.required]"
                   label="Nome"
-                  outlined
-                  dense
+                  variant="outlined"
                   class="form-field"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
+                  color="#413a44"
+                />
+
                 <v-text-field
                   v-model="form.email"
                   :rules="[rules.required, rules.email]"
                   label="E-mail"
-                  outlined
-                  dense
+                  variant="outlined"
                   class="form-field"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
+                  color="#413a44"
+                />
+
                 <v-text-field
                   v-model="form.subject"
                   :rules="[rules.required]"
                   label="Assunto"
-                  outlined
-                  dense
+                  variant="outlined"
                   class="form-field"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
+                  color="#413a44"
+                />
+
                 <v-textarea
                   v-model="form.message"
                   :rules="[rules.required]"
                   label="Mensagem"
-                  outlined
+                  variant="outlined"
                   rows="5"
                   class="form-field"
-                ></v-textarea>
-              </v-col>
-              <v-col cols="12" class="text-center mt-4">
-                <v-btn :disabled="!valid" color="pink" type="submit">Enviar Mensagem</v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-col>
-      </v-row>
+                  color="#413a44"
+                />
 
-      <v-snackbar v-model="snackbar.show" :color="snackbar.color" top>
-        {{ snackbar.text }}
-      </v-snackbar>
-    </v-container>
-  </div>
+                <div class="button-wrapper">
+                  <v-btn type="submit" :disabled="!valid" class="send-btn">
+                    Enviar Mensagem
+                  </v-btn>
+                </div>
+
+              </v-form>
+            </div>
+          </v-col>
+
+        </v-row>
+
+        <v-snackbar v-model="snackbar.show" :color="snackbar.color" top>
+          {{ snackbar.text }}
+        </v-snackbar>
+
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import emailjs from '@emailjs/browser'
 
-// Importação dos ícones
-import VueIcon from '/src/assets/Vue.png'
-import NuxtIcon from '/src/assets/Nuxt.png'
-import ReactIcon from '/src/assets/React.png'
-import NextIcon from '/src/assets/Next.png'
-import TSIcon from '/src/assets/TypeScript.png'
-import JSIcon from '/src/assets/JavaScript.png'
-import HTMLIcon from '/src/assets/HTML5.png'
-import CSSIcon from '/src/assets/CSS3.png'
-import PythonIcon from '/src/assets/Python.png'
-import FastAPIIcon from '/src/assets/FastAPI.png'
-import NodeIcon from '/src/assets/Node.png'
-import PostgreSQLIcon from '/src/assets/PostgreSQL.png'
-import SQLiteIcon from '/src/assets/SQLite.png'
-import MySQLIcon from '/src/assets/MySQL.png'
+import LinkedinIcon from '../assets/linkedin.png'
+import EmailIcon from '../assets/gmail.png'
+import PhoneIcon from '../assets/whatsapp.png'
+import MediumIcon from '../assets/medium.png'
 
-// Formulário
+const contacts = [
+  {
+    name: "E-mail",
+    value: "gsquevedo@gmail.com",
+    url: "mailto:gsquevedo@gmail.com",
+    icon: EmailIcon
+  },
+  {
+    name: "LinkedIn",
+    value: "Gabriele Quevedo",
+    url: "https://www.linkedin.com/in/gsquevedo/",
+    icon: LinkedinIcon
+  },
+  {
+    name: "Medium",
+    value: "Gabriele Quevedo",
+    url: "https://medium.com/@gabrielequevedo",
+    icon: MediumIcon
+  },
+  {
+    name: "WhatsApp",
+    value: "Chamar no WhatsApp",
+    url: "https://wa.me/5555997276535",
+    icon: PhoneIcon
+  }
+]
+
 const contactForm = ref(null)
 const valid = ref(false)
+
 const form = ref({
-  name: '',
-  email: '',
-  subject: '',
-  message: ''
+  name: "",
+  email: "",
+  subject: "",
+  message: ""
 })
 
-const snackbar = ref({
-  show: false,
-  text: '',
-  color: ''
-})
+const snackbar = ref({ show: false, text: "", color: "" })
 
 const rules = {
-  required: value => !!value || 'Campo obrigatório',
-  email: value => {
-    const pattern = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/
-    return pattern.test(value) || 'E-mail inválido'
-  }
+  required: v => !!v || "Campo obrigatório",
+  email: v => /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(v) || "E-mail inválido"
 }
 
 const sendEmail = async () => {
   if (!valid.value) return
-
   try {
-    const templateParams = {
-      name: form.value.name,
-      email: form.value.email,
-      subject: form.value.subject,
-      message: form.value.message,
-      time: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-    }
-
     await emailjs.send(
       "service_t888hx9",
-      "template_jmjsgub", 
-      templateParams, 
+      "template_jmjsgub",
+      { ...form.value, time: new Date().toLocaleString("pt-BR") },
       "13invA9zuy66Lo-F7"
-    );
+    )
 
+    snackbar.value = { show: true, text: "Mensagem enviada com sucesso!", color: "green" }
+    form.value = { name: "", email: "", subject: "", message: "" }
 
-    snackbar.value = { show: true, text: 'Mensagem enviada com sucesso!', color: 'green' }
-    form.value = { name: '', email: '', subject: '', message: '' }
   } catch (error) {
-    snackbar.value = { show: true, text: 'Erro ao enviar a mensagem.', color: 'red' }
+    snackbar.value = { show: true, text: "Erro ao enviar mensagem.", color: "red" }
     console.error(error)
   }
 }
 
-// Lista de ícones
-const icons = [
-  VueIcon, NuxtIcon, ReactIcon, NextIcon, TSIcon, JSIcon,
-  HTMLIcon, CSSIcon, PythonIcon, FastAPIIcon, NodeIcon,
-  PostgreSQLIcon, SQLiteIcon, MySQLIcon
-]
-
-// Função para embaralhar os ícones
-const shuffle = array => array.sort(() => Math.random() - 0.5)
-const shuffledIcons = computed(() => shuffle([...icons]))
+onMounted(() => {
+  const section = document.querySelector("#contact")
+  const reveal = () => {
+    if (window.scrollY + window.innerHeight >= section.offsetTop + 160) {
+      section.querySelectorAll(".fade-up").forEach(el => el.classList.add("visible"))
+      window.removeEventListener("scroll", reveal)
+    }
+  }
+  window.addEventListener("scroll", reveal)
+  reveal()
+})
 </script>
 
 <style scoped>
 .contact-section {
-  padding: 50px 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  margin-top: 20px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
 }
 
-.contact-section:hover {
-  box-shadow: 0 16px 30px rgba(0,0,0,0.2);
-  transform: scale(1.02); 
-  cursor: pointer;
+.title-wrapper {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-/* Título */
-.section-title {
-  font-size: 2.5rem;           
-  font-weight: 800;              
-  margin-bottom: 20px;  
-  margin-top: -20px;        
-  text-align: center;            
-  color: #e91e63;                
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-  text-transform: uppercase;   
+.contact-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #413a44;
 }
 
-/* Coluna esquerda */
-.contact-message {
+.title-underline {
+  width: 60px;
+  height: 4px;
+  background-color: #a7919d;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  opacity: 0;
+  animation: underlineGrow 1s ease forwards;
+}
+
+.contact-grid {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  color: #444;
+  align-items: flex-start;
+  margin-top: 25px;
 }
 
-.contact-message h3 {
-  font-size: 1.9rem;
+.left-title {
+  font-size: 1.7rem;
   font-weight: 700;
-  color: #e91e63;
-  margin-bottom: 0.8rem;
-  letter-spacing: -0.5px;
+  color: #413a44;
+  margin-bottom: 8px;
 }
 
-.contact-message p {
+.left-text {
+  color: #555;
   font-size: 1.05rem;
   line-height: 1.6;
-  color: #555;
-  padding: 15px 20px;
+  margin-bottom: 25px;
 }
 
-/* Ícones das tecnologias */
-.tech-icons {
+.contacts-wrapper {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.tech-icon {
-  width: 45px;
-  height: 45px;
-  object-fit: contain;
-  transition: transform 0.2s ease;
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: 0.25s ease;
 }
 
-.tech-icon:hover {
-  transform: scale(1.1);
+.contact-item:hover {
+  background-color: #f1e7f0;
+  transform: translateX(6px);
+}
+
+.contact-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.contact-labels {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-name {
+  color: #413a44;
+  font-weight: 700;
+}
+
+.contact-value {
+  color: #6d6270;
+  font-size: 0.95rem;
+}
+
+/* FORM */
+.form-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border: 1px solid #f0e8ef;
+}
+
+.form-field {
+  margin-bottom: 5px;
+}
+
+.v-input.form-field,
+.v-textarea.form-field {
+  max-width: 680px;
+  width: 100%;
+}
+
+.send-btn {
+  background-color: #a7919d !important;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  transition: 0.25s ease;
+}
+
+.send-btn:hover {
+  background-color: #2f2930 !important;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.7s ease;
+}
+
+.visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 </style>

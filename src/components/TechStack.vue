@@ -2,7 +2,6 @@
   <v-container id="tech" class="tech-section fade-wrapper" fluid>
     <v-row justify="center">
       <v-col cols="12">
-
         <div class="tech-card-container fade-up">
 
           <div class="title-wrapper">
@@ -10,19 +9,21 @@
             <div class="title-underline"></div>
           </div>
 
-          <v-row justify="center" align="center" class="tech-grid">
-
+          <v-row
+            justify="center"
+            align="center"
+            class="tech-grid"
+          >
             <v-col
               v-for="(tech, index) in technologies"
               :key="tech.name"
-              cols="4"
-              sm="3"
-              md="2"
+              cols="6"     
+              md="3"       
               class="tech-col"
             >
               <div
                 class="icon-circle fade-up"
-                :style="{ '--delay': `${index * 80}ms` }"
+                :style="{ '--delay': `${index * 60}ms` }"
               >
                 <v-tooltip location="top">
                   <template #activator="{ props }">
@@ -37,7 +38,6 @@
                 </v-tooltip>
               </div>
             </v-col>
-
           </v-row>
 
         </div>
@@ -86,7 +86,6 @@ const technologies = [
   { name: "MySQL", img: mysql },
 ]
 
-// animação de entrada
 onMounted(() => {
   const section = document.querySelector("#tech")
 
@@ -105,22 +104,23 @@ onMounted(() => {
 
 <style scoped>
 .tech-section {
-  padding: 60px 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  margin-top: 15px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  padding: 30px 0;
+}
 
-  /* sutil parallax ao rolar */
-  transform: translateY(0);
-  transition: transform 0.4s ease;
+.tech-card-container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.title-wrapper {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .tech-title {
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 800;
   color: #413a44;
-  text-align: center;
 }
 
 .title-underline {
@@ -140,78 +140,91 @@ onMounted(() => {
 
 .fade-up {
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUpAnim 0.9s ease forwards;
-  animation-delay: var(--delay, 0ms);
+  transform: translateY(25px);
+  filter: blur(5px);
+
+  transition:
+    opacity .7s ease,
+    transform .7s ease,
+    filter .7s ease;
 }
 
-@keyframes fadeUpAnim {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 .tech-grid {
-  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.tech-img {
-  width: 55%;
-  height: 55%;
-  object-fit: contain;
+.tech-col {
+  display: flex;
+  justify-content: center;
 }
 
 .icon-circle {
-  width: 95px;
-  height: 95px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background-color: #a7919d;
+  background: #a7919d;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s ease;
-  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+
+  transition: transform .35s cubic-bezier(.25,.46,.45,.94),
+              box-shadow .25s ease;
+
+  animation: iconPop .7s ease forwards;
+  opacity: 0;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes iconPop {
+  0%   { opacity: 0; transform: scale(.6) translateY(12px); }
+  60%  { opacity: 1; transform: scale(1.05) translateY(0); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .icon-circle:hover {
-  transform: scale(1.07);
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+  background: #9a7f8d;
 }
 
-.tech-icon {
-  font-size: 42px !important;
-  color: #ffffff !important;
+.tech-img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
 }
 
-@media (max-width: 959px) {
-  .tech-card-container {
-    padding: 40px 20px;
-    margin-top: -20px;
-  }
-
-  .tech-title {
-    font-size: 2rem;
-  }
-
+@media (max-width: 600px) {
   .icon-circle {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
   }
 
-  .tech-icon {
-    font-size: 36px !important;
+  .tech-img {
+    width: 42px;
+    height: 42px;
   }
 }
 
-@media (max-width: 599px) {
+@media (max-width: 360px) {
   .icon-circle {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
   }
 
-  .tech-icon {
-    font-size: 32px !important;
+  .tech-img {
+    width: 36px;
+    height: 36px;
   }
 }
-
 </style>
