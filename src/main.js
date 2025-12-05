@@ -14,7 +14,7 @@ const vuetify = createVuetify({
   components,
   directives,
   icons: {
-    defaultSet: 'mdi', // Define o conjunto de ícones padrão
+    defaultSet: 'mdi',
   },
 })
 
