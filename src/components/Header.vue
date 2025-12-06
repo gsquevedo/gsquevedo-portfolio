@@ -63,9 +63,7 @@
           class="cta-btn"
           size="large"
           prepend-icon="mdi-download"
-          href="#"
-          target="_blank"
-          rel="noopener"
+          @click="downloadResume"
         >
           Baixar Currículo PDF
         </v-btn>
@@ -102,6 +100,19 @@ const clearTypingTimers = () => {
     typingTimer = null;
   }
 };
+
+const downloadResume = () => {
+  const link = document.createElement('a')
+
+  // caminho correto para Vite + GitHub Pages
+  link.href = `${import.meta.env.BASE_URL}curriculo-gabriele-quevedo.pdf`
+  link.download = 'Gabriele_Quevedo_Curriculo.pdf'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 
 const typeText = () => {
   if (typingInProgress) return;
